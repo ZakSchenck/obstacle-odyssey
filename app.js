@@ -6,30 +6,51 @@ let score = 0;
 let leftSpriteIsLeftLane = true;
 let rightSpriteIsRightLane = true;
 
+/**
+ * Logic for handling keypresses
+ * @param {string} key
+ * @param {HTMLDivElement} element
+ * @param {string} initialTransform
+ * @param {string} subsequentTransform
+ * @param {event} event
+ */
+
+const handleKeyPress = (
+  key,
+  element,
+  initialTransform,
+  subsequentTransform,
+  event
+) => {
+  if (event.key === key) {
+    leftSpriteIsLeftLane = !leftSpriteIsLeftLane;
+    if (!leftSpriteIsLeftLane) {
+      element.style.transform = initialTransform;
+      element.style.transition = ".4s";
+    } else {
+      element.style.transform = subsequentTransform;
+      element.style.transition = ".4s";
+    }
+  }
+};
+
 // Logic for handling switching lanes on each game sprite
 const handleSwitchLane = (event) => {
   // Arrow left logic controlling left sprite
-  if (event.key === "ArrowLeft") {
-    leftSpriteIsLeftLane = !leftSpriteIsLeftLane;
-    if (!leftSpriteIsLeftLane) {
-      leftSprite.style.transform = "translateX(150%)";
-      leftSprite.style.transition = ".4s";
-    } else {
-      leftSprite.style.transform = "translateX(-50%)";
-      leftSprite.style.transition = ".4s";
-    }
-  }
-  // Arrow right logic controlling right sprite
-  if (event.key === "ArrowRight") {
-    rightSpriteIsRightLane = !rightSpriteIsRightLane;
-    if (!rightSpriteIsRightLane) {
-      rightSprite.style.transform = "translateX(-250%)";
-      rightSprite.style.transition = ".4s";
-    } else {
-      rightSprite.style.transform = "translateX(-50%)";
-      rightSprite.style.transition = ".4s";
-    }
-  }
+  handleKeyPress(
+    "ArrowLeft",
+    leftSprite,
+    "translateX(150%)",
+    "translateX(-50%)",
+    event
+  );
+  handleKeyPress(
+    "ArrowRight",
+    rightSprite,
+    "translateX(-250%)",
+    "translateX(-50%)",
+    event
+  );
 };
 // Event which fires key press logic
 document.addEventListener("keydown", handleSwitchLane);
