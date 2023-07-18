@@ -105,6 +105,8 @@ const handleStartAndResetGame = () => {
   startGameOverlay.style.display = "none";
   readyGoText.style.display = "block";
   readyGoText.innerText = "Ready?";
+  score = 0;
+  scoreElement.innerText = score.toString();
   if (!isAudioMuted) {
     gameTheme.play();
     gameTheme.loop = true;
@@ -186,21 +188,19 @@ const doesObstacleTouchCharacter = () => {
 const handleGameOver = () => {
   const circleObstacles = document.querySelectorAll(".circle");
   const squareObstacles = document.querySelectorAll(".square");
-  mobileLeftBtn.style.display = "none";
-  mobileLeftBtn.style.display = "none";
-  clearInterval(obstacleTimeout);
-  gameOverScreen.style.display = "flex";
-  gameOverSound.play();
-  gameTheme.pause();
-  gameTheme.currentTime = 0;
-  scoreElement.innerText = 0;
-  score = 0;
   circleObstacles.forEach((el) => {
     el.remove();
   });
   squareObstacles.forEach((el) => {
     el.remove();
   });
+  mobileLeftBtn.style.display = "none";
+  mobileRightBtn.style.display = "none";
+  clearInterval(obstacleTimeout);
+  gameOverScreen.style.display = "flex";
+  gameOverSound.play();
+  gameTheme.pause();
+  gameTheme.currentTime = 0;
 };
 
 // Checks if you miss a circle. If you did, call game over
@@ -214,8 +214,8 @@ setInterval(() => {
   });
 }, 100);
 
-// Every 22 milliseconds, check if two elements collide
-setInterval(doesObstacleTouchCharacter, 22);
+// Every 44 milliseconds, check if two elements collide
+setInterval(doesObstacleTouchCharacter, 44);
 
 /** Handles removing obstacles from the DOM to reduce clutter
  * This happens when each obstacle iteration stops
