@@ -13,6 +13,7 @@ const scoreElement = document.querySelector("#score");
 const restartGameBtn = document.querySelector("#restart-btn");
 const mobileLeftBtn = document.querySelector(".mobile-left-btn");
 const mobileRightBtn = document.querySelector(".mobile-right-btn");
+const gameOverScore = document.querySelector("#game-over-score");
 let obstacleTimeout;
 let score = 0;
 let countdownTimer = 2;
@@ -71,12 +72,12 @@ document.addEventListener("keydown", (event) => {
 
 // Fires left button on mobile click
 mobileLeftBtn.addEventListener("click", () => {
-    leftButtonLogic();
+  leftButtonLogic();
 });
 
 // Fires right button on mobile click
 mobileRightBtn.addEventListener("click", () => {
-    rightButtonLogic();
+  rightButtonLogic();
 });
 
 // Generate obstacles randomly
@@ -179,6 +180,7 @@ const doesObstacleTouchCharacter = () => {
       checkCollision(squareObstacle, leftSpritePositioning) ||
       checkCollision(squareObstacle, rightSpritePositioning)
     ) {
+      gameOverScore.innerText = score;
       handleGameOver();
     }
   });
@@ -209,6 +211,7 @@ setInterval(() => {
   const containerHeight = laneContainer.offsetHeight;
   circleObstacles.forEach((circleObstacle) => {
     if (circleObstacle.getBoundingClientRect().y >= containerHeight) {
+      gameOverScore.innerText = score;
       handleGameOver();
     }
   });
