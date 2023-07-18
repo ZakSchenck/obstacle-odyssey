@@ -107,7 +107,7 @@ body {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  font-size: 10rem;
+  font-size: 6.4rem;
   display: none;
   text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
 }
@@ -326,6 +326,26 @@ body {
   border-radius: 10px;
   -webkit-box-shadow: 0 0 10px rgba(235, 235, 82, 0.8), 0 0 10px rgba(88, 200, 251, 0.8), 0 0 10px rgba(187, 187, 83, 0.8), 0 0 10px rgba(15, 119, 179, 0.8);
           box-shadow: 0 0 10px rgba(235, 235, 82, 0.8), 0 0 10px rgba(88, 200, 251, 0.8), 0 0 10px rgba(187, 187, 83, 0.8), 0 0 10px rgba(15, 119, 179, 0.8);
+}
+
+.mobile-left-btn {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 6;
+  display: none;
+}
+
+.mobile-right-btn {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 6;
+  display: none;
 }
 
 @-webkit-keyframes move-obstacle {

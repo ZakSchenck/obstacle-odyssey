@@ -3,24 +3,32 @@ const laneContainer = document.querySelector(".mobile-container");
 const leftSprite = document.querySelector("#left-sprite");
 const rightSprite = document.querySelector("#right-sprite");
 const startGameBtn = document.querySelector("#start-game-button");
-const counterElement = document.querySelector("#countdown");
+const readyGoText = document.querySelector("#countdown");
 const gameOverScreen = document.querySelector(".mobile-container__game-over");
-let countdownTimer = 2;
+const soundButton = document.querySelector("#sound-button");
 const startGameOverlay = document.querySelector(
   ".mobile-container__start-game"
 );
+const scoreElement = document.querySelector("#score");
+const restartGameBtn = document.querySelector("#restart-btn");
+const mobileLeftBtn = document.querySelector(".mobile-left-btn");
+const mobileRightBtn = document.querySelector(".mobile-right-btn");
 let obstacleTimeout;
 let score = 0;
-const scoreElement = document.querySelector("#score");
+let countdownTimer = 2;
 let leftSpriteIsLeftLane = true;
 let rightSpriteIsRightLane = true;
 let isAudioMuted = true;
 let gameTheme;
-const soundButton = document.querySelector("#sound-button");
 let pointSound;
+let gameOverSound;
+let initialCountdownTimer = 2;
 
+// Handles logic to switch between sound images and initialize the game audio
 const handleSoundButton = () => {
   gameTheme = new Audio("./assets/music.mp3");
+  pointSound = new Audio("./assets/point.wav");
+  gameOverSound = new Audio("./assets/gameover.wav");
   if (isAudioMuted) {
     isAudioMuted = !isAudioMuted;
     soundButton.src = "./assets/sound-on.png";
@@ -32,42 +40,44 @@ const handleSoundButton = () => {
 
 soundButton.addEventListener("click", handleSoundButton);
 
-/**
- * Logic for handling keypresses
- * @param {string} key
- * @param {HTMLDivElement} element
- * @param {string} initialTransform
- * @param {string} subsequentTransform
- * @param {event} event
- */
-
-// Logic for handling switching lanes on each game sprite
-const handleSwitchLane = (event) => {
-  // Arrow left logic controlling left sprite
-  if (event.key === "ArrowLeft") {
-    leftSpriteIsLeftLane = !leftSpriteIsLeftLane;
-    if (!leftSpriteIsLeftLane) {
-      leftSprite.style.transform = "translateX(150%)";
-      leftSprite.style.transition = ".4s";
-    } else {
-      leftSprite.style.transform = "translateX(-50%)";
-      leftSprite.style.transition = ".4s";
-    }
-  }
-  // Arrow right logic controlling right sprite
-  if (event.key === "ArrowRight") {
-    rightSpriteIsRightLane = !rightSpriteIsRightLane;
-    if (!rightSpriteIsRightLane) {
-      rightSprite.style.transform = "translateX(-250%)";
-      rightSprite.style.transition = ".4s";
-    } else {
-      rightSprite.style.transform = "translateX(-50%)";
-      rightSprite.style.transition = ".4s";
-    }
+// Logic for handling left sprite movement
+const leftButtonLogic = () => {
+  leftSpriteIsLeftLane = !leftSpriteIsLeftLane;
+  if (!leftSpriteIsLeftLane) {
+    leftSprite.style.transform = "translateX(150%)";
+    leftSprite.style.transition = ".4s";
+  } else {
+    leftSprite.style.transform = "translateX(-50%)";
+    leftSprite.style.transition = ".4s";
   }
 };
+
+// Logic for handling right sprite movement
+const rightButtonLogic = () => {
+  rightSpriteIsRightLane = !rightSpriteIsRightLane;
+  if (!rightSpriteIsRightLane) {
+    rightSprite.style.transform = "translateX(-250%)";
+    rightSprite.style.transition = ".4s";
+  } else {
+    rightSprite.style.transform = "translateX(-50%)";
+    rightSprite.style.transition = ".4s";
+  }
+};
+
 // Event which fires key press logic
-document.addEventListener("keydown", handleSwitchLane);
+document.addEventListener("keydown", (event) => {
+  event.key === "ArrowLeft" ? leftButtonLogic() : rightButtonLogic();
+});
+
+// Fires left button on mobile click
+mobileLeftBtn.addEventListener("click", () => {
+    leftButtonLogic();
+});
+
+// Fires right button on mobile click
+mobileRightBtn.addEventListener("click", () => {
+    rightButtonLogic();
+});
 
 // Generate obstacles randomly
 const generateRandomObstacles = () => {
@@ -88,25 +98,33 @@ const generateRandomObstacles = () => {
   }, 520);
 };
 
-// When you hit start game, remove game start overlay and start generating obstacles
-startGameBtn.addEventListener("click", () => {
+const handleStartAndResetGame = () => {
+  countdownTimer = initialCountdownTimer;
+  mobileLeftBtn.style.display = "block";
+  mobileRightBtn.style.display = "block";
   startGameOverlay.style.display = "none";
-  countdownTimer -= 1;
-  counterElement.style.display = "block";
+  readyGoText.style.display = "block";
+  readyGoText.innerText = "Ready?";
   if (!isAudioMuted) {
     gameTheme.play();
     gameTheme.loop = true;
   }
   setTimeout(() => {
-    counterElement.innerText = countdownTimer;
+    readyGoText.innerText = "Go!";
     setTimeout(() => {
-      counterElement.style.display = "none";
+      readyGoText.style.display = "none";
     }, 1000);
   }, 1000);
 
   setTimeout(() => {
     generateRandomObstacles();
   }, 1500);
+};
+
+// When you hit start game, remove game start overlay and start generating obstacles
+startGameBtn.addEventListener("click", () => {
+  countdownTimer -= 1;
+  handleStartAndResetGame();
 });
 
 // Logic to handle if each obstacle touches game sprites
@@ -144,7 +162,7 @@ const doesObstacleTouchCharacter = () => {
       score++;
       scoreElement.innerText = score.toString();
       if (!isAudioMuted) {
-        pointSound = new Audio("./assets/point.wav");
+        pointSound.currentTime = 0;
         pointSound.play();
       }
     }
@@ -166,8 +184,23 @@ const doesObstacleTouchCharacter = () => {
 
 // Function that fires when game over criteria is met
 const handleGameOver = () => {
-  gameOverScreen.style.display = "flex";
+  const circleObstacles = document.querySelectorAll(".circle");
+  const squareObstacles = document.querySelectorAll(".square");
+  mobileLeftBtn.style.display = "none";
+  mobileLeftBtn.style.display = "none";
   clearInterval(obstacleTimeout);
+  gameOverScreen.style.display = "flex";
+  gameOverSound.play();
+  gameTheme.pause();
+  gameTheme.currentTime = 0;
+  scoreElement.innerText = 0;
+  score = 0;
+  circleObstacles.forEach((el) => {
+    el.remove();
+  });
+  squareObstacles.forEach((el) => {
+    el.remove();
+  });
 };
 
 // Checks if you miss a circle. If you did, call game over
@@ -203,3 +236,9 @@ const removeObstacles = () => {
     });
   });
 };
+
+restartGameBtn.addEventListener("click", () => {
+  gameOverScreen.style.display = "none";
+
+  handleStartAndResetGame();
+});
