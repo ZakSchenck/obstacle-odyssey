@@ -5,6 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
     <title>Document</title>
   </head>
   <body>
@@ -18,6 +24,19 @@
         <div class="mobile-container__lane">
           <div class="lane__sprite" id="right-sprite"></div>
         </div>
+        <div class="mobile-container__start-game">
+          <h1>Obstacle Odyssey</h1>
+          <div class="buttons-container">
+            <button id="start-game-button">&#9654;</button>
+            <img src="./assets/Mute_Icon.png" id="sound-button" alt="mute button" />
+          </div>
+        </div>
+        <div class="mobile-container__game-over">
+            <h1>GAME OVER! YOU STINK KID</h1>
+            <button id="restart-btn">Play Again</button>
+        </div>
+        <h1 id="countdown">2</h1>
+        <h2 id="score">0</h2>
       </div>
     </main>
     <script src="app.js"></script>
