@@ -92,7 +92,7 @@ const generateRandomObstacles = () => {
     const randomTypeNum = Math.floor(Math.random() * 5);
   
     // Generate a new random interval
-    const randomInterval = Math.floor(Math.random() * 400) + 270;
+    const randomInterval = Math.floor(Math.random() * 400) + 300;
   
     obstacleTimeout = setInterval(() => {
       // Create new element and randomly generate its properties
@@ -250,6 +250,7 @@ const removeObstacles = () => {
   });
 };
 
+// Restart game click event
 restartGameBtn.addEventListener("click", () => {
   gameOverScreen.style.display = "none";
 
