@@ -54,7 +54,7 @@ $light-theme-color: #ff8080;
         transition: transform 0.3s ease, background-color 0.3s ease;
         &:hover {
             background-color: #FF3333;
-            transform: scale(1.05);
+            transform: scale(1.7s);
         }
         &::before {
             content: "";
@@ -153,7 +153,7 @@ $light-theme-color: #ff8080;
     left: 0;
     background-color: rgb(101, 101, 255);
     animation-name: move-obstacle;
-    animation-duration: 1.12s;
+    animation-duration: 1.7s;
     animation-timing-function: linear;
     border-radius: 50%;
     &::before {
@@ -177,7 +177,7 @@ $light-theme-color: #ff8080;
     left: 0;
     background-color: $light-theme-color;
     animation-name: move-obstacle;
-    animation-duration: 1.12s;
+    animation-duration: 1.7s;
     animation-timing-function: linear;
     border-radius: 6px;
     &::before {

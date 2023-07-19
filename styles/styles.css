@@ -69,8 +69,8 @@ body {
 
 .mobile-container .mobile-container__game-over button:hover {
   background-color: #FF3333;
-  -webkit-transform: scale(1.05);
-          transform: scale(1.05);
+  -webkit-transform: scale(1.7s);
+          transform: scale(1.7s);
 }
 
 .mobile-container .mobile-container__game-over button::before {
@@ -197,8 +197,8 @@ body {
   background-color: #6565ff;
   -webkit-animation-name: move-obstacle;
           animation-name: move-obstacle;
-  -webkit-animation-duration: 1.12s;
-          animation-duration: 1.12s;
+  -webkit-animation-duration: 1.7s;
+          animation-duration: 1.7s;
   -webkit-animation-timing-function: linear;
           animation-timing-function: linear;
   border-radius: 50%;
@@ -228,8 +228,8 @@ body {
   background-color: #ff8080;
   -webkit-animation-name: move-obstacle;
           animation-name: move-obstacle;
-  -webkit-animation-duration: 1.12s;
-          animation-duration: 1.12s;
+  -webkit-animation-duration: 1.7s;
+          animation-duration: 1.7s;
   -webkit-animation-timing-function: linear;
           animation-timing-function: linear;
   border-radius: 6px;

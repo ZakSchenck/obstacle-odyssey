@@ -14,6 +14,8 @@ const restartGameBtn = document.querySelector("#restart-btn");
 const mobileLeftBtn = document.querySelector(".mobile-left-btn");
 const mobileRightBtn = document.querySelector(".mobile-right-btn");
 const gameOverScore = document.querySelector("#game-over-score");
+let isLeftKeyPressed = false;
+let isRightKeyPressed = false;
 let obstacleTimeout;
 let score = 0;
 let countdownTimer = 2;
@@ -43,6 +45,7 @@ soundButton.addEventListener("click", handleSoundButton);
 
 // Logic for handling left sprite movement
 const leftButtonLogic = () => {
+    isLeftKeyPressed = !isLeftKeyPressed;
   leftSpriteIsLeftLane = !leftSpriteIsLeftLane;
   if (!leftSpriteIsLeftLane) {
     leftSprite.style.transform = "translateX(150%)";
@@ -82,6 +85,7 @@ mobileRightBtn.addEventListener("click", () => {
 
 // Generate obstacles randomly
 const generateRandomObstacles = () => {
+    const randomInterval = Math.floor(Math.random() * 500) + 100;
   obstacleTimeout = setInterval(() => {
     // Arrays storing each potential value that get subsequently randomized
     const obstacleLanes = ["5.5%", "30.5%", "55.5%", "80.5%"];
@@ -96,7 +100,7 @@ const generateRandomObstacles = () => {
     newObstacle.style.left = `${obstacleLanes[randomLaneNum]}`;
     // Removes obstacles
     removeObstacles();
-  }, 520);
+  }, randomInterval);
 };
 
 const handleStartAndResetGame = () => {
