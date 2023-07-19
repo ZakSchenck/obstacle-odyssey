@@ -92,7 +92,7 @@ const generateRandomObstacles = () => {
     const randomTypeNum = Math.floor(Math.random() * 5);
   
     // Generate a new random interval
-    const randomInterval = Math.floor(Math.random() * 380) + 285;
+    const randomInterval = Math.floor(Math.random() * 390) + 290;
   
     obstacleTimeout = setInterval(() => {
       // Create new element and randomly generate its properties
