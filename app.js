@@ -85,7 +85,7 @@ mobileRightBtn.addEventListener("click", () => {
 
 // Generate obstacles randomly
 const generateRandomObstacles = () => {
-    const randomInterval = Math.floor(Math.random() * 500) + 100;
+    const randomInterval = Math.floor(Math.random() * 390) + 120;
   obstacleTimeout = setInterval(() => {
     // Arrays storing each potential value that get subsequently randomized
     const obstacleLanes = ["5.5%", "30.5%", "55.5%", "80.5%"];
