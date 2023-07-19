@@ -85,23 +85,29 @@ mobileRightBtn.addEventListener("click", () => {
 
 // Generate obstacles randomly
 const generateRandomObstacles = () => {
-    const randomInterval = Math.floor(Math.random() * 390) + 120;
-  obstacleTimeout = setInterval(() => {
     // Arrays storing each potential value that get subsequently randomized
     const obstacleLanes = ["5.5%", "30.5%", "55.5%", "80.5%"];
     const obstacleTypes = ["circle", "square", "square", "square", "circle"];
     const randomLaneNum = Math.floor(Math.random() * 4);
     const randomTypeNum = Math.floor(Math.random() * 5);
-
-    // Creste new element and randomly generate its properties
-    const newObstacle = document.createElement("div");
-    laneContainer.appendChild(newObstacle);
-    newObstacle.classList.add(obstacleTypes[randomTypeNum]);
-    newObstacle.style.left = `${obstacleLanes[randomLaneNum]}`;
-    // Removes obstacles
-    removeObstacles();
-  }, randomInterval);
-};
+  
+    // Generate a new random interval
+    const randomInterval = Math.floor(Math.random() * 400) + 270;
+  
+    obstacleTimeout = setInterval(() => {
+      // Create new element and randomly generate its properties
+      const newObstacle = document.createElement("div");
+      laneContainer.appendChild(newObstacle);
+      newObstacle.classList.add(obstacleTypes[randomTypeNum]);
+      newObstacle.style.left = `${obstacleLanes[randomLaneNum]}`;
+      // Removes obstacles
+      removeObstacles();
+  
+      // Set the new random interval
+      clearInterval(obstacleTimeout);
+      generateRandomObstacles();
+    }, randomInterval);
+  };
 
 const handleStartAndResetGame = () => {
   countdownTimer = initialCountdownTimer;
