@@ -23,13 +23,122 @@ body {
   background-size: cover;
 }
 
+.mobile-container .leaderboard-container {
+  width: 100%;
+  height: 100%;
+  background-color: #4646cf;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.mobile-container .leaderboard-container #close-leaderboard-button {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  background-color: black;
+  padding: 0 8px;
+  border: 1px solid white;
+}
+
+.mobile-container .leaderboard-container .next-prev-btn-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 35px;
+  margin-top: 16px;
+}
+
+.mobile-container .leaderboard-container .next-prev-btn-container button {
+  background-color: red;
+  border: 1px solid white;
+  color: white;
+  outline: none;
+  font-size: 25px;
+  padding: 4px 16px;
+  border-radius: 12px;
+}
+
+.mobile-container .leaderboard-container .leaderboard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-left: 12px;
+  gap: 14px;
+  width: 85%;
+  height: 50%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 2px solid white;
+  padding: 15px 0;
+}
+
+.mobile-container .leaderboard-container .leaderboard div {
+  border: 2px solid white;
+  background-color: #00cfe2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 12px;
+  width: 90%;
+  height: 16%;
+  background-color: #00a4b3;
+  gap: 12px;
+}
+
+.mobile-container .leaderboard-container .leaderboard div h2 {
+  background-color: #e7c400;
+  padding: 0 15px;
+  border-radius: 8px;
+  border: 1px solid white;
+  font-weight: bold;
+}
+
+.mobile-container .leaderboard-container .leaderboard div .username {
+  color: #790000;
+}
+
 .mobile-container .mobile-container__game-over {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 200;
+  z-index: 4;
   display: none;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -47,11 +156,41 @@ body {
   border: 2px solid #ff6e6e;
 }
 
+.mobile-container .mobile-container__game-over form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 20px;
+}
+
+.mobile-container .mobile-container__game-over form input {
+  height: 35px;
+  font-size: 25px;
+  padding-left: 12px;
+  width: 220px;
+  border-radius: 12px;
+  border: 4px solid #ff8080;
+}
+
+.mobile-container .mobile-container__game-over p {
+  color: red;
+}
+
 .mobile-container .mobile-container__game-over button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #FF0000;
-  color: #FFFFFF;
+  background-color: #ff0000;
+  color: #ffffff;
   font-family: "Rajdhani", sans-serif;
   font-size: 16px;
   border: none;
@@ -68,7 +207,7 @@ body {
 }
 
 .mobile-container .mobile-container__game-over button:hover {
-  background-color: #FF3333;
+  background-color: #ff3333;
   -webkit-transform: scale(1.7s);
           transform: scale(1.7s);
 }
@@ -120,10 +259,43 @@ body {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 15px;
+}
+
+.mobile-container .mobile-container__start-game #start-game-leaderboard {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ff0000;
+  color: #ffffff;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: background-color 0.3s ease, -webkit-transform 0.3s ease;
+  transition: background-color 0.3s ease, -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease, -webkit-transform 0.3s ease;
 }
 
 .mobile-container .mobile-container__start-game h1 {
-  margin-top: 50%;
   opacity: 1;
   width: 100%;
   font-size: 3em;
@@ -142,19 +314,19 @@ body {
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .mobile-container .mobile-container__start-game div img {
   width: 100px;
   height: 100px;
-  position: absolute;
-  left: 75%;
-  -webkit-transform: translateX(-75%);
-          transform: translateX(-75%);
-  top: 0;
   -webkit-filter: invert(1);
           filter: invert(1);
-  top: 40%;
   border: 2px solid black;
   border-radius: 50%;
   padding: 10px;
@@ -162,11 +334,6 @@ body {
 
 .mobile-container .mobile-container__start-game div button {
   font-size: 4em;
-  position: absolute;
-  top: 40%;
-  left: 25%;
-  -webkit-transform: translateX(-25%);
-          transform: translateX(-25%);
   color: white;
   border-radius: 50%;
   outline: none;

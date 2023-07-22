@@ -28,20 +28,43 @@
           <h1>Obstacle Odyssey</h1>
           <div class="buttons-container">
             <button id="start-game-button">&#9654;</button>
-            <img src="./assets/Mute_Icon.png" id="sound-button" alt="mute button" />
+            <img
+              src="./assets/Mute_Icon.png"
+              id="sound-button"
+              alt="mute button"
+            />
           </div>
+          <button id="start-game-leaderboard" class="leaderboard-btn">
+            Leaderboard
+          </button>
         </div>
         <div class="mobile-container__game-over">
-            <h1>GAME OVER! YOU STINK KID</h1>
-            <h2>You got: <span id="game-over-score"></span></h2>
-            <button id="restart-btn">Play Again</button>
+          <h1>GAME OVER! YOU STINK KID</h1>
+          <h2>Enter Username to Post Score</h2>
+          <form>
+            <input id="input-username" type="text" maxlength="14" />
+            <button id="post-req-button" type="submit">Submit</button>
+          </form>
+          <p id="submit-error-message"></p>
+          <button class="leaderboard-btn">Leaderboard</button>
+          <h2>You got: <span id="game-over-score"></span></h2>
+          <button id="restart-btn">Play Again</button>
         </div>
         <h1 id="countdown">2</h1>
         <h2 id="score">0</h2>
         <div class="mobile-left-btn"></div>
         <div class="mobile-right-btn"></div>
+        <div class="leaderboard-container">
+          <h1 id="close-leaderboard-button">X</h1>
+          <h1>Leaderboard</h1>
+          <div class="leaderboard"></div>
+          <div class="next-prev-btn-container">
+            <button id="prev-btn">Prev</button>
+            <button id="next-btn">Next</button>
+          </div>
+        </div>
       </div>
     </main>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

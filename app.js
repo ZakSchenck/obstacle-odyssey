@@ -1,4 +1,14 @@
-const lane = document.querySelectorAll(".mobile-container__lane");
+import { postNewPlayer, getLeaderboardData } from "./api.js";
+
+const postRequestButton = document.querySelector("#post-req-button");
+const inputUsername = document.querySelector("#input-username");
+const leaderboardContainer = document.querySelector(".leaderboard-container");
+const leaderboard = document.querySelector(".leaderboard");
+const leaderboardBtn = document.querySelectorAll(".leaderboard-btn");
+const closeLeaderboardButton = document.querySelector(
+  "#close-leaderboard-button"
+);
+const submitErrorMessage = document.querySelector("#submit-error-message");
 const laneContainer = document.querySelector(".mobile-container");
 const leftSprite = document.querySelector("#left-sprite");
 const rightSprite = document.querySelector("#right-sprite");
@@ -6,6 +16,8 @@ const startGameBtn = document.querySelector("#start-game-button");
 const readyGoText = document.querySelector("#countdown");
 const gameOverScreen = document.querySelector(".mobile-container__game-over");
 const soundButton = document.querySelector("#sound-button");
+const nextLeaderboardButton = document.querySelector("#next-btn");
+const prevLeaderboardButton = document.querySelector("#prev-btn");
 const startGameOverlay = document.querySelector(
   ".mobile-container__start-game"
 );
@@ -14,8 +26,9 @@ const restartGameBtn = document.querySelector("#restart-btn");
 const mobileLeftBtn = document.querySelector(".mobile-left-btn");
 const mobileRightBtn = document.querySelector(".mobile-right-btn");
 const gameOverScore = document.querySelector("#game-over-score");
+let leaderboardDataStartNum = 0;
+let leaderboardDataEndNum = 5;
 let isLeftKeyPressed = false;
-let isRightKeyPressed = false;
 let obstacleTimeout;
 let score = 0;
 let countdownTimer = 2;
@@ -45,7 +58,7 @@ soundButton.addEventListener("click", handleSoundButton);
 
 // Logic for handling left sprite movement
 const leftButtonLogic = () => {
-    isLeftKeyPressed = !isLeftKeyPressed;
+  isLeftKeyPressed = !isLeftKeyPressed;
   leftSpriteIsLeftLane = !leftSpriteIsLeftLane;
   if (!leftSpriteIsLeftLane) {
     leftSprite.style.transform = "translateX(150%)";
@@ -85,29 +98,29 @@ mobileRightBtn.addEventListener("click", () => {
 
 // Generate obstacles randomly
 const generateRandomObstacles = () => {
-    // Arrays storing each potential value that get subsequently randomized
-    const obstacleLanes = ["5.5%", "30.5%", "55.5%", "80.5%"];
-    const obstacleTypes = ["circle", "square", "square", "square", "circle"];
-    const randomLaneNum = Math.floor(Math.random() * 4);
-    const randomTypeNum = Math.floor(Math.random() * 5);
-  
-    // Generate a new random interval
-    const randomInterval = Math.floor(Math.random() * 390) + 290;
-  
-    obstacleTimeout = setInterval(() => {
-      // Create new element and randomly generate its properties
-      const newObstacle = document.createElement("div");
-      laneContainer.appendChild(newObstacle);
-      newObstacle.classList.add(obstacleTypes[randomTypeNum]);
-      newObstacle.style.left = `${obstacleLanes[randomLaneNum]}`;
-      // Removes obstacles
-      removeObstacles();
-  
-      // Set the new random interval
-      clearInterval(obstacleTimeout);
-      generateRandomObstacles();
-    }, randomInterval);
-  };
+  // Arrays storing each potential value that get subsequently randomized
+  const obstacleLanes = ["5.5%", "30.5%", "55.5%", "80.5%"];
+  const obstacleTypes = ["circle", "square", "square", "square", "circle"];
+  const randomLaneNum = Math.floor(Math.random() * 4);
+  const randomTypeNum = Math.floor(Math.random() * 5);
+
+  // Generate a new random interval
+  const randomInterval = Math.floor(Math.random() * 390) + 290;
+
+  obstacleTimeout = setInterval(() => {
+    // Create new element and randomly generate its properties
+    const newObstacle = document.createElement("div");
+    laneContainer.appendChild(newObstacle);
+    newObstacle.classList.add(obstacleTypes[randomTypeNum]);
+    newObstacle.style.left = `${obstacleLanes[randomLaneNum]}`;
+    // Removes obstacles
+    removeObstacles();
+
+    // Set the new random interval
+    clearInterval(obstacleTimeout);
+    generateRandomObstacles();
+  }, randomInterval);
+};
 
 const handleStartAndResetGame = () => {
   countdownTimer = initialCountdownTimer;
@@ -249,6 +262,120 @@ const removeObstacles = () => {
     });
   });
 };
+
+// Submit leaderboard POST request logic
+const submitLeaderboardRequest = async (event) => {
+  event.preventDefault();
+  if (inputUsername.value.length > 2 && inputUsername.value.length < 15) {
+    submitErrorMessage.innerText = "";
+    try {
+      await postNewPlayer({ username: inputUsername.value, score: score });
+
+      const leaderboardData = await getLeaderboardData();
+      console.log(leaderboardData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  } else {
+    submitErrorMessage.innerText =
+      "Username must be between 3 and 14 characters long";
+  }
+};
+
+// Submits leaderboard POST request on button click
+postRequestButton.addEventListener("click", submitLeaderboardRequest);
+
+// Logic for displaying leaderboard data on leaderboard modal
+const createUserDataElements = (data) => {
+  let placement = leaderboardDataStartNum;
+  for (let i = leaderboardDataStartNum; i < leaderboardDataEndNum; i++) {
+    if (data.data[i].username) {
+      placement++;
+      const newPlayer = document.createElement("div");
+      newPlayer.classList.add("player");
+      leaderboard.appendChild(newPlayer);
+
+      // Get player placement
+      const playerPlacementElement = document.createElement("h2");
+      playerPlacementElement.innerText = placement;
+      newPlayer.appendChild(playerPlacementElement);
+
+      // Get player username
+      const playerNameElement = document.createElement("h3");
+      playerNameElement.classList.add("username");
+      playerNameElement.innerText = data.data[i].username;
+      newPlayer.appendChild(playerNameElement);
+
+      // Get player score
+      const playerScoreElement = document.createElement("h3");
+      playerScoreElement.innerText = `Score: ${data.data[i].score}`;
+      newPlayer.appendChild(playerScoreElement);
+    }
+  }
+};
+
+// Checks if next button should be disabled
+const checkDisabledNextButton = (data) => {
+  if (leaderboardDataEndNum > data.data.length) {
+    nextLeaderboardButton.style.backgroundColor = "gray";
+    nextLeaderboardButton.disabled = true; // Corrected the property to disable the button
+  } else {
+    nextLeaderboardButton.style.backgroundColor = "red";
+    nextLeaderboardButton.disabled = false; // Corrected the property to enable the button
+  }
+}
+
+// GET request logic for leaderboard data
+const getLeaderboard = async () => {
+  try {
+    leaderboardDataStartNum > 0
+      ? (prevLeaderboardButton.style.backgroundColor = "red")
+      : (prevLeaderboardButton.style.backgroundColor = "gray");
+    const data = await getLeaderboardData();
+
+    checkDisabledNextButton(data);
+    leaderboardContainer.style.display = "flex";
+
+    while (leaderboard.firstChild) {
+      leaderboard.removeChild(leaderboard.firstChild);
+    }
+
+    createUserDataElements(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
+// For each leaderboard button, open leaderboard
+leaderboardBtn.forEach((btn) => {
+  btn.addEventListener("click", getLeaderboard);
+});
+
+// Logic for handling next button on leaderboard
+const nextButtonLeaderboardLogic = () => {
+  leaderboardDataStartNum += 5;
+  leaderboardDataEndNum += 5;
+  getLeaderboard();
+};
+
+// Logic for handling prev button on leaderboard
+const prevButtonLeaderboardLogic = () => {
+  if (leaderboardDataStartNum > 0) {
+    leaderboardDataStartNum -= 5;
+    leaderboardDataEndNum -= 5;
+    getLeaderboard();
+  }
+};
+
+nextLeaderboardButton.addEventListener("click", nextButtonLeaderboardLogic);
+prevLeaderboardButton.addEventListener("click", prevButtonLeaderboardLogic);
+
+// Logic for handling closing leaderboard
+closeLeaderboardButton.addEventListener("click", () => {
+  leaderboardDataEndNum = 5;
+  leaderboardDataStartNum = 0;
+  leaderboardContainer.style.display = "none";
+});
 
 // Restart game click event
 restartGameBtn.addEventListener("click", () => {
